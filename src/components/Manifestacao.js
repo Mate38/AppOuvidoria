@@ -75,7 +75,7 @@ export default class Manifestacao extends Component {
                 <Label style={{ color: branco }}>E-mail para resposta</Label>
                 <Input />
               </Item>
-              <View style={{ marginLeft: 15, borderBottomColor: branco, borderBottomWidth: 1, paddingTop: 20 }}>
+              <View style={{ marginLeft: 15, borderBottomColor: branco, borderBottomWidth: 0.8, paddingTop: 20 }}>
                 <Picker
                   mode="dialog"
                   style={{ color: branco }}
