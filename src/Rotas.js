@@ -10,9 +10,9 @@ import Teste from './components/Teste';
 
 const Rotas = () => (
 	<Router sceneStyle={{ }}>
-    <Scene key='manifestacao' hideNavBar component={Manifestacao} title="Dados da Manifestação" />
-    <Scene key='principal' hideNavBar component={Principal} initil title="Principal" />
     
+    <Scene key='principal' hideNavBar component={Principal} initil title="Principal" />
+    <Scene key='manifestacao' hideNavBar component={Manifestacao} title="Dados da Manifestação" />
     <Scene key='tipomanifestacao' hideNavBar component={TipoManifestacao} title="Tipo da Manifestação" />
     <Scene key='cadastropessoafisica' hideNavBar component={CadastroPessoaFisica} title="Cadastro de Pessoa Física" />
     <Scene key='cadastropessoajuridica' hideNavBar component={CadastroPessoaJuridica} title="Cadastro de Pessoa Jurídica" />

@@ -43,7 +43,7 @@ export default class Manifestacao extends Component {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           error: null,
-        }, () => this.getGeocode()); // call the api after getCurrentPosition is finished
+        }, () => this.getGeocode());
       },
        (error) => this.setState({ error: error.message }),
        { enableHighAccuracy: true, timeout: 20000 },
@@ -51,13 +51,13 @@ export default class Manifestacao extends Component {
     
     }
     getGeocode() {
-     axios.get('https://maps.googleapis.com/maps/api/geocode/json?address='+ this.state.latitude +','+ this.state.longitude +'&key=AIzaSyDtQ0zsYr1c_V7UmlHFekeFIGM2nDwnDEA') // be sure your api key is correct and has access to the geocode api
+     axios.get('https://maps.googleapis.com/maps/api/geocode/json?address='+ this.state.latitude +','+ this.state.longitude +'&key=AIzaSyDtQ0zsYr1c_V7UmlHFekeFIGM2nDwnDEA')
     .then(response => {
       console.log(response);
         this.setState({
-            place: response.data.results[0].formatted_address // access from response.data.results[0].formatted_address
+            place: response.data.results[0].formatted_address
         })
-     }).catch((error) => { // catch is called after then
+     }).catch((error) => {
        this.setState({ error: error.message })
      });
   }
@@ -94,11 +94,11 @@ export default class Manifestacao extends Component {
               </View>
               <Item floatingLabel>
                 <Label style={{ color: branco }}>Local da ocorrência</Label>
-                <Input multiline={true} numberOfLines={4} value={this.state.place.toString()} />
+                <Input multiline={true} numberOfLines={2} value={this.state.place.toString()} />
               </Item>
               <Item floatingLabel>
                 <Label style={{ color: branco }}>Sua manifestação*</Label>
-                <Input multiline={true} numberOfLines={4}/>
+                <Input multiline={true} numberOfLines={2}/>
               </Item>
             </Form>
 
