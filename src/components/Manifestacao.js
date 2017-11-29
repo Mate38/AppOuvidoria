@@ -27,6 +27,7 @@ export default class Manifestacao extends Component {
       selected: "selected",
       place: 'Localizando endereço...',
       error: null,
+      units: 'Obtendo dados...',
     };
   }
 
@@ -37,6 +38,18 @@ export default class Manifestacao extends Component {
   }
 
   componentWillMount() {
+    // Recebe dados da API do GOG
+    axios.get('http://192.168.0.23/apiTeste/public/api/unidades')
+    .then(response => {
+      console.log(response);
+        this.setState({
+            units: response.data.data[0].nmunidade 
+        })
+    }).catch((error) => { 
+      this.setState({ error: error.message })
+    });
+
+    // Retorna a geolocalização do cel
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({
@@ -48,8 +61,9 @@ export default class Manifestacao extends Component {
        (error) => this.setState({ error: error.message }),
        { enableHighAccuracy: true, timeout: 20000 },
      );
-    
+
     }
+    // Retorna o endereço a partir da geolocalização
     getGeocode() {
      axios.get('https://maps.googleapis.com/maps/api/geocode/json?address='+ this.state.latitude +','+ this.state.longitude +'&key=AIzaSyDtQ0zsYr1c_V7UmlHFekeFIGM2nDwnDEA')
     .then(response => {
@@ -84,7 +98,7 @@ export default class Manifestacao extends Component {
                   itemStyle={{ backgroundColor: 'red' }}
                 >
                   <Item label="Selecione a unidade responsável" value="selected" />
-                  <Item label="Um" value="key0" />
+                  <Item label={this.state.units.toString()} value="key0" />
                   <Item label="Dois" value="key1" />
                   <Item label="Tres" value="key2" />
                   <Item label="Quatro" value="key3" />
