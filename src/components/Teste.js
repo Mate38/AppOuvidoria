@@ -27,7 +27,7 @@ export default class Manifestacao extends Component {
       selected: "selected",
       place: 'Localizando endereço...',
       error: null,
-      units: 'Obtendo dados...',
+      units: [],
     };
   }
 
@@ -41,14 +41,14 @@ export default class Manifestacao extends Component {
     // Recebe dados da API do GOG
     axios.get('http://192.168.0.23/apiTeste/public/api/unidades')
     .then(response => {
-      console.log(response);
+      //console.log(response);
         this.setState({
-            units: response.data.data[0].nmunidade 
+            units: response.data.data
         })
     }).catch((error) => { 
       this.setState({ error: error.message })
     });
-
+    
     // Retorna a geolocalização do cel
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -77,6 +77,7 @@ export default class Manifestacao extends Component {
   }
 
   render() {
+    console.log(this.state.units)
     return (
       <View style={styles.geral}>
         <Text style={styles.titulo}>Dados da manifestação</Text>
@@ -89,7 +90,7 @@ export default class Manifestacao extends Component {
                 <Label style={{ color: branco }}>E-mail para resposta</Label>
                 <Input />
               </Item>
-              <View style={{ marginLeft: 15, borderBottomColor: branco, borderBottomWidth: 0.8, paddingTop: 20 }}>
+              <View style={styles.picker}>
                 <Picker
                   mode="dialog"
                   style={{ color: branco }}
@@ -97,12 +98,9 @@ export default class Manifestacao extends Component {
                   onValueChange={this.onValueChange.bind(this)}
                   itemStyle={{ backgroundColor: 'red' }}
                 >
-                  <Item label="Selecione a unidade responsável" value="selected" />
-                  <Item label={this.state.units.toString()} value="key0" />
-                  <Item label="Dois" value="key1" />
-                  <Item label="Tres" value="key2" />
-                  <Item label="Quatro" value="key3" />
-                  <Item label="Cinco" value="key4" />
+                  { this.state.units.map(unit => (
+                    <Item key={unit.idunidade} label={unit.field1} value={unit.field2} />
+                  )) }
                 </Picker>
                 <Text>{this.state.user}</Text>
               </View>
@@ -148,5 +146,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: branco,
     //justifyContent: 'flex-start',
+  },
+  picker: {
+    marginLeft: 15, 
+    borderBottomColor: branco, 
+    borderBottomWidth: 0.8, 
+    paddingTop: 20
   },
 });
